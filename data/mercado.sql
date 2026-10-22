@@ -23,6 +23,9 @@ CREATE TABLE tb_produto(
     imagem VARCHAR(100),
     esta_ativo TINYINT(1) NOT NULL DEFAULT 1
 );
+-- EXCLUIR UMA TABELA 
+DROP TABLE tb_produto;
+
 
 CREATE TABLE tb_ocorrencia(
 	id_ocorrencia INT PRIMARY KEY AUTO_INCREMENT,
@@ -45,15 +48,16 @@ CREATE TABLE tb_ocorrencia(
 -- ÁREA DOS INSERTS 
 -- 2 LOGINS DE USUARIOS - COM TIPOS DIFERENTES 
 INSERT INTO tb_usuario 
-	(id_usuario, nome, perfil, email, senha, esta-ativo, )
+	(id_usuario, nome, perfil, email, senha, esta_ativo )
 VALUES
 	(DEFAULT, "livia sl ", "gestor", "libina@gmail.com", "dela0960", 1);
 
 INSERT INTO tb_usuario 
-	(id_usuario, nome, perfil, email, senha, esta-ativo, )
+	(id_usuario, nome, perfil, email, senha, esta_ativo )
 VALUES
 	(DEFAULT, "Alcione da silva ", "operador", "alcione002@gmail.com", "alciloba", 1);
--- READ - LER OS DADOS
+DROP TABLE tb_usuario;
+
 SELECT *
 	FROM tb_usuario;
 
@@ -62,12 +66,36 @@ SELECT *
  INSERT INTO tb_produto
 	(id_produto, codigo_interno , nome, categoria, unidade_venda ,  preco , imagem , esta_ativo)
 VALUES
-	(DEFAULT, "vr-009","Cenoura ", "verdura ", "5 reais o kilo ", "5.00", "não tem ", 1),
-	(DEFAULT, "ft-008", "Banana","Fruta","10" , "7.00 reais o kilo ", "não tem ", 1),
-	(DEFAULT, "lg-007", "Cebola", "legume", "20", "2.00 50 gramas ", "não tem ", 1 );
+	(DEFAULT, "vr-009","Cenoura ", "verdura ", "kg", 5.00, "não tem ", 1),
+	(DEFAULT, "ft-008", "Banana","Fruta","kg" , 5.00 , "não tem ", 1),
+	(DEFAULT, "lg-007", "Cebola", "legume", "g", 6.7 , "não tem", 1 ),
+	(DEFAULT, "lg-005", "Cebola-roxa", "legume", "kg", 10.00  , "não tem ", 1 );
  
- 
+ SELECT *
+	FROM tb_produto;
  -- 3 OCORRÊNCIAS
+ INSERT INTO tb_ocorrencia
+	(id_ocorrencia, quantidade, diferenca, data_hora, produto_correto, produto_errado, usuario)
+VALUES
+	(DEFAULT, "1"  , 2.60, "2026-05-25 09:50:12 ", 3, 4, 1),
+    (DEFAULT, "2"  , 3.90, "2026-08-10 16:32:50 ", 4, 1, 1),
+	(DEFAULT, "10"  ,789, "2026-09-04 11:47:53 ", 1, 2, 2);
  
- 
+ SELECT *
+	FROM tb_ocorrencia;
+    
  -- JOIN COM TODAS AS INFORMAÇÕES JUNTAS DE OCORRÊNCIAS , COM RESPECTIVAS REFER
+ SELECT * 
+	FROM tb_ocorrencia AS o
+JOIN
+	tb_produto AS pc
+ON 
+	o.produto_correto = pc.id_produto 
+JOIN
+	tb_produto AS pe
+ON 
+	o.produto_errado = pe.id_produto 
+JOIN
+	tb_usuario AS u
+ON 
+	o.usuario = u.id_usuario;
